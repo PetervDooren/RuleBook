@@ -10,7 +10,7 @@
 
 \usepackage{soul}
 
-\input{./setup/packages_scoresheets.tex}
+\input{./styles/packages_scoresheets.tex}
 
 \usepackage{fullpage}
 \parindent 0cm
@@ -21,10 +21,10 @@
 \textwidth 18cm
 \textheight 26cm
 
-\input{./setup/active_version.tex}
+\input{./styles/active_version.tex}
 \graphicspath{{\YEAR/}{./images/}}
-\input{./setup/macros.tex}                        % defined in macros.tex
-\input{./setup/abbrevix.tex}                      % for list of abbreviations
+\input{./styles/macros.tex}                        % defined in macros.tex
+\input{./styles/abbrevix.tex}                      % for list of abbreviations
 
 \hypersetup{
   pdftitle     = {RoboCup@Home Forms \& Score Sheets},
@@ -63,33 +63,12 @@
 
 \begin{document}
 
-\begin{titlepage}
-  \begin{center}
-    {
-      \includegraphics[width=.25\textwidth]{images/logo_RoboCupFed.jpg}
-      \hfill
-      \includegraphics[width=.25\textwidth]{images/logo_RoboCupAtHome.jpg}\\[1.23ex]
-    }
-    \vspace{2.7 cm}
-    \hrulefill\par
-    {%
-      \vspace*{.27cm}
-      \Huge{RoboCup@Home}\\[1.23ex]
-      \ifthenelse{\equal{\league}{}}{}{\huge{\leagueFullName}\\[1.23ex]}
-      \Large Forms \& Score Sheets\\[2ex]
-    }
-    \hrulefill\par
-    \vfill
-    ~~ Version: \YEAR \quad \svnRevision ~~ \\
-    ~~ Last Build Date: \today \quad Time: \the\time ~~ \\
-    ~~ \svnChangeData ~~ %\\
-    %\vfill
-  \end{center}
-\end{titlepage}
+\input{./styles/titlepage}
+\rctitle{Forms \& Score Sheets}
 
 \pagestyle{plain}
 
-\input{registration_form.tex}
+\input{pages/registration_form.tex}
 
 \renewcommand{\shortScoresheet}{false}
 

@@ -5,7 +5,10 @@ RuleBook for RoboCup @Home 2022
 
 The 2022 rulebook is based on the 2019 rulebook. The current version is **final**; only minor (language) updates and clarifications may be made from now on.
 
-[On-the-fly compiled LaTeX version](https://robocupathome.github.io/RuleBook/rulebook/master.pdf)
+
+[Rulebook](https://robocupathome.github.io/RuleBook/rulebook/master.pdf)
+[Organization](https://robocupathome.github.io/RuleBook/organization/master.pdf)
+[Roadmap](https://robocupathome.github.io/RuleBook/roadmap/master.pdf)
 
 [Released PDF version](https://athome.robocup.org/wp-content/uploads/2022_rulebook.pdf)
 

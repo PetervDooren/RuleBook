@@ -25,12 +25,12 @@ jobs:
     - uses: actions/checkout@v4
     - name: LaTeX compilation
       run:
-        TERM=xterm make dorulebookonly
+        TERM=xterm make rulebook
     - name: Upload build result
       uses: actions/upload-artifact@v3
       with:
         name: rulebook
-        path: rulebook.pdf
+        path: build/rulebook.pdf
 
 
   build-scoresheets:
@@ -42,19 +42,51 @@ jobs:
     - uses: actions/checkout@v4
     - name: LaTeX compilation
       run:
-        TERM=xterm make doscoresheetsonly
+        TERM=xterm make scoresheets
     - name: Upload build result
       uses: actions/upload-artifact@v3
       with:
         name: score_sheets
-        path: score_sheets.pdf
+        path: build/score_sheets.pdf
+
+  build-organization:
+
+    runs-on: ubuntu-latest
+    container: leplusorg/latex:latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: LaTeX compilation
+      run:
+        TERM=xterm make orga
+    - name: Upload build result
+      uses: actions/upload-artifact@v3
+      with:
+        name: organization
+        path: build/organization.pdf
+
+  build-roadmap:
+
+    runs-on: ubuntu-latest
+    container: leplusorg/latex:latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: LaTeX compilation
+      run:
+        TERM=xterm make roadmap
+    - name: Upload build result
+      uses: actions/upload-artifact@v3
+      with:
+        name: roadmap
+        path: build/roadmap.pdf
 
   deploy-pdfs:
 
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    needs: [build-rulebook, build-scoresheets]
+    needs: [build-rulebook, build-scoresheets, build-organization, build-roadmap]
     steps:
     - uses: actions/checkout@v4
       with:
@@ -69,6 +101,16 @@ jobs:
       with:
         name: score_sheets
         path: ${{ runner.temp }}/score_sheets
+    - name: Download organization
+      uses: actions/download-artifact@v3
+      with:
+        name: organization
+        path: ${{ runner.temp }}/organization
+    - name: Download roadmap
+      uses: actions/download-artifact@v3
+      with:
+        name: rulebook
+        path: ${{ runner.temp }}/roadmap
     - name: Preparations for GitHub Pages
       if: github.ref == 'refs/heads/master'
       env:
@@ -78,11 +120,15 @@ jobs:
         cd "$GITHUB_WORKSPACE"
         mkdir -p rulebook
         mkdir -p score_sheets
+        mkdir -p organization
+        mkdir -p roadmap
         FILENAME=${GITHUB_REF/refs\/heads\//}
         # Strip out any extra slashes in the rest
         FILENAME=${FILENAME//\//\_}.pdf
         mv $ARTIFACTS_PATH/rulebook/rulebook.pdf rulebook/$FILENAME
         mv $ARTIFACTS_PATH/score_sheets/score_sheets.pdf score_sheets/$FILENAME
+        mv $ARTIFACTS_PATH/organization/organization.pdf organization/$FILENAME
+        mv $ARTIFACTS_PATH/roadmap/roadmap.pdf roadmap/$FILENAME
     - name: Commit and push to GitHub Pages
       if: github.ref == 'refs/heads/master'
       uses: stefanzweifel/git-auto-commit-action@v5
